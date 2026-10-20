@@ -1,0 +1,8 @@
+Nombres criminales
+d o x: Variables de una sola letra sin ningún significado que indique qué contienen. 
+aux: Un comodín genérico que no explica qué tipo de dato o valor auxiliar está almacenando.   
+data2: Un sufijo numérico sin contexto que oculta por completo la intención de la variable. 
+
+¿Por qué "código duplicado" es más peligroso que "código feo"?  
+Respuesta: Porque el código feo solo afecta la estética y la legibilidad, mientras que el código duplicado representa un riesgo real para la lógica del sistema:
+si cambia una regla de negocio y actualizamos solo algunas copias olvidando las demás, introducimos un bug silencios o muy difícil de detectar.
