@@ -1,0 +1,15 @@
+# Comparación de Flujos de Trabajo en Git
+
+La diferencia fundamental entre GitFlow y Trunk-Based Development radica en la longevidad de las ramas y la frecuencia de integración.
+GitFlow es un modelo altamente estructurado que utiliza ramas de larga duración (como `main`, `develop`, `feature/*`, `release/*` y `hotfix/*`). 
+Este enfoque es adecuado para proyectos con ciclos de lanzamiento tradicionales y planificados a largo plazo, pero suele generar integración tardía y resolver
+conflictos de fusión complejos.
+
+Por otro lado, Trunk-Based Development incentiva a los desarrolladores a integrar sus cambios directamente en una única rama principal (`main`)
+con extrema frecuencia. Las ramas de características son de muy corta duración (horas o un par de días), apoyándose en técnicas como *feature flags* 
+para desplegar en producción sin exponer código incompleto.
+
+Para el desarrollo de una aplicación web, elegiría **Trunk-Based Development**. 
+Las aplicaciones web modernas requieren iteraciones rápidas, despliegue continuo (CI/CD) y retroalimentación constante. 
+Trunk-Based minimiza drásticamente los *merge conflicts*, evita la acumulación de código no probado y permite llevar correcciones o nuevas funcionalidades
+a producción en minutos de forma segura y ágil.
