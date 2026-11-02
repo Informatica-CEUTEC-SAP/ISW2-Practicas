@@ -11,6 +11,7 @@ con extrema frecuencia. Las ramas de características son de muy corta duración
 para desplegar en producción sin exponer código incompleto.
 
 Para el desarrollo de una aplicación web, elegiría **Trunk-Based Development**. 
+
 Las aplicaciones web modernas requieren iteraciones rápidas, despliegue continuo (CI/CD) y retroalimentación constante. 
 Trunk-Based minimiza drásticamente los *merge conflicts*, evita la acumulación de código no probado y permite llevar correcciones o nuevas funcionalidades
 a producción en minutos de forma segura y ágil.
