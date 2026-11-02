@@ -7,6 +7,7 @@ Trunk-Based Development promueve que todos los desarrolladores integren sus camb
 utilizando ramas de función de muy corta duración y técnicas como *feature flags* para desplegar de forma continua.
 
 Para el desarrollo de una aplicación web moderna, elegiría **Trank-Based Development**.
+
 Las aplicaciones web se benefician enormemente del despliegue continuo (CD) y de iteraciones rápidas basadas en el *feedback* de los usuarios. 
 Trunk-Based reduce drásticamente los conflictos de fusión (*merge conflicts*), 
 minimiza el código no integrado y permite corregir errores o lanzar nuevas funcionalidades a producción en cuestión de minutos, 
