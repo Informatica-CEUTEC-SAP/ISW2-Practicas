@@ -1,0 +1,74 @@
+### 📁 2. Archivo `practica-3/despues.md`
+Separación desacoplada aplicando **S** (cada pieza con una sola responsabilidad) y **D** (inyección de dependencias para almacenamiento y notificaciones)[cite: 1, 4, 8, 14].
+
+```markdown
+# Estado Refactorizado (Después de aplicar SOLID)
+
+```typescript
+// --- ABSTRACCIONES / INTERFACES (Principio D) ---
+interface IPedidoRepository {
+  guardar(pedido: Pedido): Promise<void>;
+}
+
+interface INotificadorService {
+  enviarNotificacion(cliente: Cliente, mensaje: string): Promise<void>;
+}
+
+// --- SERVICIOS Y REGLAS DE NEGOCIO (Principio S) ---
+class CalculadorImpuestos {
+  calcularISV(subtotal: number): number {
+    return subtotal * 0.15;
+  }
+
+  calcularTotal(items: Array<{ precio: number; cantidad: number }>): { subtotal: number; isv: number; total: number } {
+    const subtotal = items.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    const isv = this.calcularISV(subtotal);
+    return { subtotal, isv, total: subtotal + isv };
+  }
+}
+
+class ValidadorStock {
+  validar(items: Array<{ nombre: string; stockDisponible: number; cantidad: number }>): void {
+    if (!items || items.length === 0) throw new Error("El pedido no contiene ítems.");
+    for (const item of items) {
+      if (item.stockDisponible < item.cantidad) {
+        throw new Error(`Stock insuficiente para: ${item.nombre}`);
+      }
+    }
+  }
+}
+
+class ImpresorTicket {
+  imprimir(pedido: Pedido, calculo: { subtotal: number; isv: number; total: number }): void {
+    console.log("=== TICKET DE VENTA ===");
+    console.log(`Cliente: ${pedido.cliente.nombre}`);
+    console.log(`Subtotal: L. ${calculo.subtotal.toFixed(2)}`);
+    console.log(`ISV (15%): L. ${calculo.isv.toFixed(2)}`);
+    console.log(`Total: L. ${calculo.total.toFixed(2)}`);
+    console.log("=======================");
+  }
+}
+
+// --- CASO DE USO PRINCIPAL (Coordinador desacoplado) ---
+class ProcesarPedidoUseCase {
+  constructor(
+    private validadorStock: ValidadorStock,
+    private calculadorImpuestos: CalculadorImpuestos,
+    private impresorTicket: ImpresorTicket,
+    private pedidoRepo: IPedidoRepository,       // Inyectado (Detalle intercambiable)
+    private notificador: INotificadorService    // Inyectado (Detalle intercambiable)
+  ) {}
+
+  async ejecutar(pedido: Pedido): Promise<void> {
+    this.validadorStock.validar(pedido.items);
+    
+    const calculo = this.calculadorImpuestos.calcularTotal(pedido.items);
+    pedido.total = calculo.total;
+
+    await this.pedidoRepo.guardar(pedido);
+    this.impresorTicket.imprimir(pedido, calculo);
+    
+    const mensaje = `Hola ${pedido.cliente.nombre}, tu pedido fue procesado por L. ${calculo.total.toFixed(2)}`;
+    await this.notificador.enviarNotificacion(pedido.cliente, mensaje);
+  }
+}
