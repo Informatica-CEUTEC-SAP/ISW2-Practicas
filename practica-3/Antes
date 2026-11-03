@@ -1,1 +1,49 @@
+# Estado Inicial (Antes de Refactor)
 
+```javascript
+class GestorPedido {
+  async procesarPedido(pedido) {
+    // 1. Validación de stock
+    if (!pedido.items || pedido.items.length === 0) {
+      throw new Error("El pedido no contiene ítems.");
+    }
+    for (const item of pedido.items) {
+      if (item.stockDisponible < item.cantidad) {
+        throw new Error(`Stock insuficiente para el producto: ${item.nombre}`);
+      }
+    }
+
+    // 2. Cálculo del total e Impuesto Sobre Ventas (ISV 15%)
+    let subtotal = 0;
+    for (const item of pedido.items) {
+      subtotal += item.precio * item.cantidad;
+    }
+    const isv = subtotal * 0.15;
+    const total = subtotal + isv;
+    pedido.total = total;
+
+    // 3. Persistencia en base de datos (Detalle soldado)
+    const conexionBD = new MySQLConnection("localhost", "root", "1234");
+    await conexionBD.connect();
+    await conexionBD.query("INSERT INTO pedidos (cliente, total) VALUES (?, ?)", [
+      pedido.cliente.id,
+      pedido.total
+    ]);
+    await conexionBD.disconnect();
+
+    // 4. Impresión de ticket de venta
+    console.log("=== TICKET DE VENTA ===");
+    console.log(`Cliente: ${pedido.cliente.nombre}`);
+    console.log(`Subtotal: L. ${subtotal.toFixed(2)}`);
+    console.log(`ISV (15%): L. ${isv.toFixed(2)}`);
+    console.log(`Total: L. ${total.toFixed(2)}`);
+    console.log("=======================");
+
+    // 5. Envío de notificación por WhatsApp (Detalle soldado)
+    const clienteWS = new WhatsAppClient("API_KEY_SECRET");
+    const mensaje = `Hola ${pedido.cliente.nombre}, tu pedido #${pedido.id} por L. ${total.toFixed(2)} ha sido procesado con éxito.`;
+    await clienteWS.sendTextMessage(pedido.cliente.telefono, mensaje);
+
+    return { estado: "COMPLETADO", total };
+  }
+}
