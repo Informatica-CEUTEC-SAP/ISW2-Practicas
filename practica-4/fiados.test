@@ -1,1 +1,76 @@
+const { calcularMora } = require('./fiados');
 
+// Mini-runner de tests (TU mini framework)
+function assertEqual(actual, esperado) {
+  if (actual !== esperado) {
+    throw new Error(`Esperado: ${esperado}, pero se obtuvo: ${actual}`);
+  }
+}
+
+function test(nombre, fn) {
+  try {
+    fn();
+    console.log(`✅ PASS: ${nombre}`);
+  } catch (error) {
+    console.error(`❌ FAIL: ${nombre}`);
+    console.error(`   ${error.message}`);
+  }
+}
+
+// ----------------------------------------------------
+// SUITE DE TESTS (Estructura AAA: Arrange, Act, Assert)
+// ----------------------------------------------------
+
+// 1. Caso Borde / Validación: Monto negativo (TDD Red primero)
+test('Lanza error si el monto es negativo', () => {
+  // Arrange & Act & Assert
+  let lanzoError = false;
+  try {
+    calcularMora(-100, 5);
+  } catch (e) {
+    lanzoError = true;
+  }
+  assertEqual(lanzoError, true);
+});
+
+// 2. Camino feliz: Con mora (> 0 días)
+test('Calcula el 5% de mora para días vencidos > 0', () => {
+  // Arrange
+  const monto = 100;
+  const dias = 10;
+  
+  // Act
+  const resultado = calcularMora(monto, dias);
+  
+  // Assert
+  assertEqual(resultado, 5);
+});
+
+// 3. Caso borde: 0 días vencidos (Sin mora)
+test('Retorna 0 si los días vencidos son 0', () => {
+  const resultado = calcularMora(100, 0);
+  assertEqual(resultado, 0);
+});
+
+// 4. Caso borde: Monto 0
+test('Retorna 0 si el monto es 0', () => {
+  const resultado = calcularMora(0, 5);
+  assertEqual(resultado, 0);
+});
+
+// 5. Caso borde / Validación: Días no numéricos
+test('Lanza error si los días no son un número', () => {
+  let lanzoError = false;
+  try {
+    calcularMora(100, 'cinco');
+  } catch (e) {
+    lanzoError = true;
+  }
+  assertEqual(lanzoError, true);
+});
+
+// 6. Caso borde: Días negativos (No vencido)
+test('Retorna 0 si los días son negativos', () => {
+  const resultado = calcularMora(100, -2);
+  assertEqual(resultado, 0);
+});
