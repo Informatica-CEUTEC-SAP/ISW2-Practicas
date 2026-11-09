@@ -1,1 +1,6 @@
+// practica-4/fiados.js (Versión inicial incompleta para provocar el fallo TDD)
+function calcularMora(monto, diasVencidos) {
+  return 0; // No valida errores aún
+}
 
+module.exports = { calcularMora };
