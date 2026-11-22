@@ -7,3 +7,5 @@
 | 3 | Cadena de `if / else if` que obliga a modificar la función para añadir tarifas. | **Principio 3 (M3 - SOLID OCP):** Abierto/Cerrado. | Uso de diccionario `TARIFAS[tipo]` en lugar de condicionales encadenados. |
 | 4 | Una sola función filtra, calcula precios, muta datos e imprime en consola. | **Principio 4 (M3 - SOLID SRP):** Responsabilidad Única. | Separación en `calcularCosto`, `procesarCitas` e `imprimirResumen`. |
 | 5 | Código duplicado para el descuento y anidamiento profundo de condicionales. | **Principio 5 (M1 - DRY / Early Return):** No te repitas. | Uso de guard clause (`if (!tieneDescuento) return tarifaBase;`) y `.filter()` / `.map()`. |
+
+Validado y listo para entrega
