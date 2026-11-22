@@ -12,7 +12,7 @@ C4Context
 
   Rel(dueno, patitas, "Gestiona mascotas y citas vía HTTPS")
   Rel(patitas, supabase, "Autentica sesiones y ejecuta consultas SQL")
-  Rel(patitas, vercel, "Se aloja y distribuye en")
+  Rel(patitas, vercel, "Se aloja y distribuye en") ´´´
 
 Justificación del Nivel 1
 El diagrama de contexto delimita la frontera de Patitas como una caja negra frente a sus actores y dependencias externas. El usuario final interactúa únicamente con la aplicación web mediante HTTPS, mientras que la autenticación, la base de datos (Supabase) y la infraestructura de publicación (Vercel) se modelan como sistemas externos gestionados, reduciendo la complejidad operativa del producto.
