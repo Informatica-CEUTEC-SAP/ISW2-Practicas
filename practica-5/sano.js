@@ -1,34 +1,38 @@
-// practica-5/sano.js
-const ESTADO_ACTIVO = 1;
-const PORCENTAJE_DESCUENTO = 0.15;
-
-const TARIFAS_POR_TIPO = {
-  C: 500,  // Consulta
-  V: 350,  // Vacuna
-  E: 1200, // Especialidad
-};
-
-function calcularCostoCita(tipo, tieneDescuento) {
-  const tarifaBase = TARIFAS_POR_TIPO[tipo] ?? 0;
-  if (!tieneDescuento) return tarifaBase;
-  return tarifaBase * (1 - PORCENTAJE_DESCUENTO);
+// practica-5/enfermo.js
+function proc(d, t) {
+  let res = [];
+  let tot = 0;
+  for (let i = 0; i < d.length; i++) {
+    if (d[i].st === 1) {
+      if (d[i].tp === 'C') {
+        let p = 500;
+        if (t === true) {
+          p = p - (p * 0.15);
+        }
+        d[i].costo = p;
+        tot += p;
+        res.push(d[i]);
+      } else if (d[i].tp === 'V') {
+        let p = 350;
+        if (t === true) {
+          p = p - (p * 0.15);
+        }
+        d[i].costo = p;
+        tot += p;
+        res.push(d[i]);
+      } else if (d[i].tp === 'E') {
+        let p = 1200;
+        if (t === true) {
+          p = p - (p * 0.15);
+        }
+        d[i].costo = p;
+        tot += p;
+        res.push(d[i]);
+      }
+    }
+  }
+  console.log("Procesadas: " + res.length + " | Total: L." + tot);
+  return { lista: res, total: tot };
 }
 
-function procesarCitas(citas, tieneDescuento = false) {
-  const citasProcesadas = citas
-    .filter((cita) => cita.st === ESTADO_ACTIVO)
-    .map((cita) => ({
-      ...cita,
-      costo: calcularCostoCita(cita.tp, tieneDescuento),
-    }));
-
-  const total = citasProcesadas.reduce((acumulado, cita) => acumulado + cita.costo, 0);
-
-  return { lista: citasProcesadas, total };
-}
-
-function imprimirResumen(resumen) {
-  console.log(`Procesadas: ${resumen.lista.length} | Total: L.${resumen.total}`);
-}
-
-module.exports = { procesarCitas, calcularCostoCita, imprimirResumen };
+module.exports = { proc };
