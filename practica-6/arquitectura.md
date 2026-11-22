@@ -41,3 +41,4 @@ Justificación del Nivel 2
 Al abrir el sistema en contenedores desplegables, se separa la capa de presentación estática (servida desde Vercel con soporte PWA mediante sw.js)
 de los servicios de identidad y datos en Supabase. Esta separación desacopla el frontend de la infraestructura de base de datos,
 facilita el despliegue independiente y permite aplicar seguridad a nivel de fila (RLS) directamente en PostgreSQL.
+
