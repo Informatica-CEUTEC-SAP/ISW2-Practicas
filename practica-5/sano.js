@@ -8,22 +8,21 @@ function calcularCosto(tipo, tieneDescuento) {
   return tarifaBase * (1 - PORCENTAJE_DESCUENTO);
 }
 
-function procesarCitas(citas, tieneDescuento) {
-  let resultado = [];
-  let total = 0;
+function procesarCitas(citas, tieneDescuento = false) {
+  const lista = citas
+    .filter((cita) => cita.st === ESTADO_ACTIVO && TARIFAS[cita.tp])
+    .map((cita) => ({
+      ...cita,
+      costo: calcularCosto(cita.tp, tieneDescuento),
+    }));
 
-  for (let i = 0; i < citas.length; i++) {
-    if (citas[i].st !== ESTADO_ACTIVO) continue;
-    if (!TARIFAS[citas[i].tp]) continue;
+  const total = lista.reduce((suma, cita) => suma + cita.costo, 0);
 
-    const precio = calcularCosto(citas[i].tp, tieneDescuento);
-    citas[i].costo = precio;
-    total += precio;
-    resultado.push(citas[i]);
-  }
-
-  console.log("Procesadas: " + resultado.length + " | Total: L." + total);
-  return { lista: resultado, total: total };
+  return { lista, total };
 }
 
-module.exports = { proc: procesarCitas, calcularCosto };
+function imprimirResumen(resumen) {
+  console.log(`Procesadas: ${resumen.lista.length} | Total: L.${resumen.total}`);
+}
+
+module.exports = { procesarCitas, calcularCosto, imprimirResumen };
