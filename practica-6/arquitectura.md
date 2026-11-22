@@ -9,7 +9,6 @@ C4Context
   System(patitas, "Patitas Web App", "Sistema web de gestión veterinaria y recordatorios desplegado en patitas.website.")
   System_Ext(supabase, "Supabase (Auth + PostgreSQL)", "Servicio externo en la nube para autenticación de usuarios y persistencia relacional.")
   System_Ext(vercel, "Vercel Edge Network", "Plataforma externa de alojamiento web continuo y distribución HTTPS.")
-
   Rel(dueno, patitas, "Gestiona mascotas y citas vía HTTPS")
   Rel(patitas, supabase, "Autentica sesiones y ejecuta consultas SQL")
   Rel(patitas, vercel, "Se aloja y distribuye en")
