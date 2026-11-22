@@ -1,5 +1,5 @@
 const assert = require('node:assert');
-const { proc } = require('./enfermo');
+const { procesarCitas } = require('./sano');
 
 function runTests() {
   const citasMock = [
@@ -10,13 +10,13 @@ function runTests() {
   ];
 
   // Test 1: Sin descuento
-  const resNormal = proc(JSON.parse(JSON.stringify(citasMock)), false);
+  const resNormal = procesarCitas(citasMock, false);
   assert.strictEqual(resNormal.lista.length, 3);
   assert.strictEqual(resNormal.total, 2050);
   assert.strictEqual(resNormal.lista[0].costo, 500);
 
   // Test 2: Con descuento del 15%
-  const resDescuento = proc(JSON.parse(JSON.stringify(citasMock)), true);
+  const resDescuento = procesarCitas(citasMock, true);
   assert.strictEqual(resDescuento.total, 1742.5);
   assert.strictEqual(resDescuento.lista[2].costo, 1020);
 
