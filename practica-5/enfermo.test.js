@@ -1,6 +1,6 @@
 // practica-5/enfermo.test.js
 const assert = require('node:assert');
-const { proc } = require('./enfermo');
+const { proc } = require('./sano');
 
 function runTests() {
   const citasMock = [
